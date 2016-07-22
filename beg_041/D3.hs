@@ -34,18 +34,6 @@ judgeR set (xs:xss) | judge set xs = xs : judgeR set xss
 judgeR set [] = []
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 ------------------------  
 getResultForPrint :: [Maybe [Int]] -> [[Int]]
 getResultForPrint (Nothing :xs)  = getResultForPrint xs
