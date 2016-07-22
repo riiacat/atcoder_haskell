@@ -1,3 +1,4 @@
+--from http://abc041.contest.atcoder.jp/assignments Question A
 
 import Data.List
 
