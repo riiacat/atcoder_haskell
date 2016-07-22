@@ -17,7 +17,7 @@ getResult' :: Int -> [[Int]] -> Int
 getResult' n xss = sum $ map ( judge_int xss ) $ permutations [1..n] 
 judge_int :: [[Int]] -> [Int] -> Int
 judge_int xss xs | judge xss xs = 1
-                 | judge xss xs = 0
+                 | otherwise = 0
 -- n -> set -> result             
 getResult :: Int -> [[Int]] -> [Maybe [Int]]
 getResult n xss = map (judge_just xss) $ permutations [1..n]  
