@@ -1,33 +1,36 @@
 --from http://abc041.contest.atcoder.jp/assignments Question D
 -- Time Over in this algorithm
 import Data.List
+import Control.Applicative
 
 main = do
   p <- getContents
   let n = read $ words (lines p !! 0) !! 0 ::Int
       m = read $ words (lines p !! 0) !! 1 ::Int
       set = map ((map read).words) $ tail $ lines p ::[[Int]]
-  putStr $ show $ getResult' n set 
+  putStr $ show $ getSumR n set 
   
   
   
   
 getSumR :: Int -> [[Int]] -> Int
-getSumR n set = sum $ getR n set 
-getR:: Int -> [[Int]] -> [Int]
-getR n set = judgeR set' judgedList
+getSumR n set = length $ getR n set 
+getR:: Int -> [[Int]] -> [[Int]]
+getR n set = judgeR set judgedList
              where  judgedList = insertedlist n $ getR (n-1) $ filter (\(x:[y]) -> x < n && y < n) set
-                    set' = filter (\(x:[y]) -> x == n || y == n) set
-insertedlist :: Int -> [Int] -> [Int]
-insertedlist n xs = runFunc ( map (\x ->  insertAt x x) [0..(n-1)] ) xs
-  where runFunc (f:fs) x = f x : runFunc fs x
-        runFunc [] x = []
+get 1 set = judgeR set $ permutations [1]                    
+insertedlist :: Int -> [[Int]] -> [[Int]]
+insertedlist n xss =  (map (\x ->  insertAt x x) [0..(n-1)] ) <*> xss        
 --n個目の後ろに挿入
 insertAt :: Int -> a -> [a] -> [a]  
 insertAt n x xs = before ++ [x] ++ after  
   where (before , after) = splitAt n xs
-judgeR :: [[Int]] -> [Int] -> [Int]
-judgeR = undefined
+--        
+judgeR :: [[Int]] -> [[Int]] -> [[Int]]
+judgeR set (xs:xss) | judge set xs = xs : judgeR set xss
+                    | otherwise = xss
+judgeR set [] = []
+judgeR [] xss = xss
   
   
   
@@ -64,7 +67,7 @@ judge_just xss ys | judge xss ys  = Just ys
 -- information -> list -> Bool
 judge :: [[Int]] -> [Int] -> Bool
 judge ( (x:[y]):xss) ys | (ind_x < ind_y) = True && (judge xss ys)
-                   | otherwise = False
+                        | otherwise = False
   where ind_x = elemIndex x ys
         ind_y = elemIndex y ys
 judge [] ys = True
