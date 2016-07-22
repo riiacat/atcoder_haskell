@@ -16,10 +16,16 @@ getSumR :: Int -> [[Int]] -> Int
 getSumR n set = sum $ getR n set 
 getR:: Int -> [[Int]] -> [Int]
 getR n set = judgeR set' judgedList
-             where  judgedList insertedlist n $ getR (n-1) $ 
+             where  judgedList = insertedlist n $ getR (n-1) $ filter (\(x:[y]) -> x < n && y < n) set
                     set' = filter (\(x:[y]) -> x == n || y == n) set
 insertedlist :: Int -> [Int] -> [Int]
-insertedlist =undefined
+insertedlist n xs = runFunc ( map (\x ->  insertAt x x) [0..(n-1)] ) xs
+  where runFunc (f:fs) x = f x : runFunc fs x
+        runFunc [] x = []
+--n個目の後ろに挿入
+insertAt :: Int -> a -> [a] -> [a]  
+insertAt n x xs = before ++ [x] ++ after  
+  where (before , after) = splitAt n xs
 judgeR :: [[Int]] -> [Int] -> [Int]
 judgeR = undefined
   
@@ -45,7 +51,7 @@ getResultForPrint [] = []
 getResult' :: Int -> [[Int]] -> Int                       
 getResult' n xss = sum $ map ( judge_int xss ) $ permutations [1..n] 
 judge_int :: [[Int]] -> [Int] -> Int
-judge_int xss xs | judge' xss xs = 1 --judge or judge'
+judge_int xss xs | judge xss xs = 1 --judge or judge'
                  | otherwise = 0
 -- n -> set -> result             
 getResult :: Int -> [[Int]] -> [Maybe [Int]]
