@@ -8,6 +8,35 @@ main = do
       m = read $ words (lines p !! 0) !! 1 ::Int
       set = map ((map read).words) $ tail $ lines p ::[[Int]]
   putStr $ show $ getResult' n set 
+  
+  
+  
+  
+getSumR :: Int -> [[Int]] -> Int
+getSumR n set = sum $ getR n set 
+getR:: Int -> [[Int]] -> [Int]
+getR n set = judgeR set' judgedList
+             where  judgedList insertedlist n $ getR (n-1) $ 
+                    set' = filter (\(x:[y]) -> x == n || y == n) set
+insertedlist :: Int -> [Int] -> [Int]
+insertedlist =undefined
+judgeR :: [[Int]] -> [Int] -> [Int]
+judgeR = undefined
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+------------------------  
 getResultForPrint :: [Maybe [Int]] -> [[Int]]
 getResultForPrint (Nothing :xs)  = getResultForPrint xs
 getResultForPrint (Just s : xs)  = s : getResultForPrint xs
@@ -34,16 +63,6 @@ judge ( (x:[y]):xss) ys | (ind_x < ind_y) = True && (judge xss ys)
         ind_y = elemIndex y ys
 judge [] ys = True
 
-judge' :: [[Int]] -> [Int] -> Bool
-judge' xss n = ( judge' xss (n - 1) ) && judge (filter (\(x:[y]) -> x <= n && y <= n ) xss ) (permutations n)
-judge' _ 1 = True                        
-judge' [] _ = True
-
-judge' :: [[Int]] -> n -> [[Int]]
-judge' set n = rejudge set $ map (mypush n) (judge' set (n-1)) 
-               
-mypush :: a -> [a] -> [a]
-mypush x xs = 
 
 
 
