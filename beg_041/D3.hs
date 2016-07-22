@@ -16,21 +16,22 @@ main = do
 getSumR :: Int -> [[Int]] -> Int
 getSumR n set = length $ getR n set 
 getR:: Int -> [[Int]] -> [[Int]]
-getR n set = judgeR set judgedList
-             where  judgedList = insertedlist n $ getR (n-1) $ filter (\(x:[y]) -> x < n && y < n) set
-get 1 set = judgeR set $ permutations [1]                    
+getR 2 set = judgeR set $ permutations [1,2]
+getR n set = judgeR set' judgedList 
+             where  judgedList = insertedlist n $ getR (n-1) $filter (\(x:[y]) -> x < n && y<n) set
+                    set' = filter (\(x:[y]) -> x >= n || y>=n) set
 insertedlist :: Int -> [[Int]] -> [[Int]]
-insertedlist n xss =  (map (\x ->  insertAt x x) [0..(n-1)] ) <*> xss        
+insertedlist n xss =  (map (\x ->  insertAt x n) [0..(n-1)] ) <*> xss        
 --n個目の後ろに挿入
 insertAt :: Int -> a -> [a] -> [a]  
-insertAt n x xs = before ++ [x] ++ after  
+insertAt n x xs =  before ++ (x : after)
   where (before , after) = splitAt n xs
 --        
 judgeR :: [[Int]] -> [[Int]] -> [[Int]]
-judgeR set (xs:xss) | judge set xs = xs : judgeR set xss
-                    | otherwise = xss
-judgeR set [] = []
 judgeR [] xss = xss
+judgeR set (xs:xss) | judge set xs = xs : judgeR set xss
+                    | otherwise = judgeR set xss
+judgeR set [] = []
   
   
   
