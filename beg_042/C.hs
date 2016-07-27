@@ -9,12 +9,16 @@ main = do
       k = read $ last $ words $ head $ lines p :: Int
       d  =   map ( flip (!!) 0 ) $ words $last  $ lines p -- d !! i = D_i
       pre = [n..]
-      result = ( find (myNotElem d )  pre ) 
-  putStr $  show result
+      result = ( find (myNotElem d )  pre )
+      result' = (\(Just x) -> x) result
+  putStr $  show result'
 
 
 myNotElem :: [Char] -> Int -> Bool  
-myNotElem  (s:st) n | s `notElem` n' = myNotElem st n
-                   | otherwise = False
+-- myNotElem  (s:st) n | s `notElem` n' = myNotElem st n
+--                    | otherwise = False
+--   where n' = show n
+-- myNotElem [] _ = True
+
+myNotElem st n = and $ map (flip elem n') st                    
   where n' = show n
-myNotElem [] _ = True        
