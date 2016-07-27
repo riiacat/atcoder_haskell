@@ -2,7 +2,11 @@
 
 import Data.List
 import Control.Applicative
-
+import qualified Control.Monad.State as ST
+import qualified Data.Map as M
+type Ma = M.Map (Int,Int) Integer
+type St = ST.State Ma Integer
+  
 main = do
   p <- getContents
   let fstline = words $ head $ lines p 
@@ -11,20 +15,22 @@ main = do
       a = read $ fstline !! 2 :: Integer
       b = read $ fstline !! 3 ::Integer
       
-  putStr $  show $ getR h w a b
-
-
-getR h w a b = zipWith (*) (getHLenList h a b ) second
-  where getHLenList h a b = map ( flip getLen b) [1..(h-a)]
+  putStr $  show h -- ToDo
   
-getLen h w = myCombination   ( h - 1 + w -1 )  $  min  (h - 1) (w -1) 
-myCombination :: Integer -> Integer -> Integer
-myCombination n k = (fact n ) `div` ( (fact k) * (fact (n-k) ) )
-
-fact :: Integer -> Integer
-fact 1 = 1
-fact 0 = 1
-fact n = n * fact (n-1)
 
 
-         
+
+getNum :: Ma  -> (Int, Int) -> Integer
+getNum m (x,y) | re  == Nothing =  lef + abo
+               | otherwise =  (\(Just x) -> x) re 
+  where re = M.lookup (x,y) m
+        lef =   getNum m ( (x - 1) , y ) 
+        abo =   getNum m ( x, (y - 1) )
+        
+memorize :: Ma -> (Int, Int) -> Ma
+memorize m (x,y) | M.lookup (x,y) m == Nothing = M.insert (x, y) re m
+                 | otherwise = m
+  where re = getNum m (x,y)
+
+run :: ( (Ma , (Int,Int) )-> c ) -> c      
+run = undefined --f (m , (x,y))
