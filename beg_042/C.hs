@@ -20,5 +20,5 @@ myNotElem :: [Char] -> Int -> Bool
 --   where n' = show n
 -- myNotElem [] _ = True
 
-myNotElem st n = and $ map (flip elem n') st                    
+myNotElem st n = and $ map (flip notElem n') st                    
   where n' = show n
