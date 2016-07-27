@@ -1,3 +1,4 @@
+-- for "http://abc042.contest.atcoder.jp/tasks/abc042_a"
 import Data.List
 import Control.Applicative
 
