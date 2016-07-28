@@ -9,17 +9,17 @@ main = do
   let n = read $ words (lines p !! 0) !! 0 ::Int
       m = read $ words (lines p !! 0) !! 1 ::Int
       set = map ((map read).words) $ tail $ lines p ::[[Int]]
-  putStr $ show $ length $ memorizedGetR n set
+  putStr $ show $ length $ memorizedGetR n set !! n
   
 --メモ化するぞい
-memorizedGetR:: Int -> [[Int]] -> [[Int]]
-memorizedGetR n set = ( [ (flip getR') set n | n <- [0..] ] !! n )
+memorizedGetR:: Int -> [[Int]] -> [[[Int]]]
+memorizedGetR n set = ( [ (flip getR') set n | n <- [0..] ] )
   where getR':: Int -> [[Int]] -> [[Int]]
         getR' 0 set = []
         getR' 1 set = []
         getR' 2 set = judgeR set $ permutations [1,2]
         getR' n set = judgeR set judgedList 
-          where  judgedList = insertedlist n $ memorizedGetR (n-1) set 
+          where  judgedList = insertedlist n $ memorizedGetR (n-1) set !! ( n - 1 )
 
            
 getSumR :: Int -> [[Int]] -> Int
@@ -64,7 +64,8 @@ judge_just xss ys | judge xss ys  = Just ys
                  
 -- information -> list -> Bool
 judge :: [[Int]] -> [Int] -> Bool
-judge ( (x:[y]):xss) ys | (ind_x < ind_y) = True && (judge xss ys)
+judge ( (x:[y]):xss) ys | (ind_x < ind_y) = True && (judge xss ys)  
+                        | ind_x == Nothing || ind_y == Nothing =  True && (judge xss ys)  
                         | otherwise = False
   where ind_x = elemIndex x ys
         ind_y = elemIndex y ys
