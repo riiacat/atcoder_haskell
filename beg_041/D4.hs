@@ -9,18 +9,19 @@ main = do
   let n = read $ words (lines p !! 0) !! 0 ::Int
       m = read $ words (lines p !! 0) !! 1 ::Int
       set = map ((map read).words) $ tail $ lines p ::[[Int]]
-  putStr $ show $ length $ memorizedGetR n set !! n
+  putStr $ show $ length $ memorizedGetR set !! n
   
 --メモ化するぞい
-memorizedGetR:: Int -> [[Int]] -> [[[Int]]]
-memorizedGetR n set = memorizedGetR' n
-  where memorizedGetR' n  =( [ getR' n | n <- [0..] ] )
+memorizedGetR:: [[Int]] -> [[[Int]]]
+memorizedGetR set = memorizedGetR'  
+  where memorizedGetR'   = ( [ getR' n | n <- [0..] ] )
           where getR':: Int -> [[Int]]
                 getR' 0  = []
                 getR' 1  = []
                 getR' 2  = judgeR set $ permutations [1,2]
-                getR' n  = judgeR set judgedList 
-                  where  judgedList = insertedlist n $ memorizedGetR' ( n - 1) !! ( n - 1)
+                getR' n  = judgeR set' judgedList 
+                  where  judgedList = insertedlist n $ memorizedGetR' !! ( n - 1)
+                         set' = filter (\(x:[y]) -> x >= n || y>=n) set
 
            
 getSumR :: Int -> [[Int]] -> Int
