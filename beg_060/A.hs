@@ -5,11 +5,11 @@ import Control.Applicative
 
 main = do
   input <- getLine
-    let inputWords = words input
-        a = inputWords !! 1
-        b = inputWords !! 2
-        a = inputWords !! 3
-  case  (last a) == (head b) && (last b) && (head c) of
+  let inputWords = words input
+      a = inputWords !! 0
+      b = inputWords !! 1
+      c = inputWords !! 2
+  case (  (last a) == (head b) ) && ( (last b) == (head c)) of
     True -> putStr "YES"
     False -> putStr "NO"
         
