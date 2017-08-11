@@ -12,4 +12,5 @@ main = do
   case (  (last a) == (head b) ) && ( (last b) == (head c)) of
     True -> putStr "YES"
     False -> putStr "NO"
-        
+
+
